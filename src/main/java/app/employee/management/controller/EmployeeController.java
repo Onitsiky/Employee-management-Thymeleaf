@@ -2,12 +2,15 @@ package app.employee.management.controller;
 
 import app.employee.management.service.EmployeeService;
 import app.employee.management.view.mapper.EmployeeViewMapper;
+import app.employee.management.view.model.CreateEmployee;
 import app.employee.management.view.model.Employee;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -24,5 +27,17 @@ public class EmployeeController {
         .toList();
     model.addAttribute("employees", employees);
     return "employee-list";
+  }
+
+  @GetMapping("/add-employee")
+  public String employeeForm(Model model) {
+    model.addAttribute("employee", new CreateEmployee());
+    return "employee-form";
+  }
+
+  @PostMapping("/save-employee")
+  public String saveEmployee(@ModelAttribute CreateEmployee employee) {
+    service.crupdateEmployee(mapper.toDomain(employee));
+    return "redirect:/employee";
   }
 }

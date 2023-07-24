@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+ead>
+<meta charset="UTF-8">
+<title>Add new Employee</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/css/main.css}">
+</head>
+<script>
+  var currentDate = new Date().toISOString().split('T')[0];
+  function setMaxDate() {
+    var dateField = document.getElementById('birth-date');
+    dateField.setAttribute('max', currentDate);
+  }
+</script>
+<body onload="setMaxDate()">
+  <div class="card p-3">
+    <h2 class="text-center text-secondary ">Add new employee</h2>
+    <form action="#" th:action="@{/save-employee}" th:object="${employee}" method="post" enctype="multipart/form-data">
+      <table id="registration">
+        <tr>
+          <td><label>First Name</label></td>
+          <td><input class="form-control mb-2" type="text" th:field="*{firstName}" /></td>
+        </tr>
+        <tr>
+          <td><label>Last Name</label></td>
+          <td><input class="form-control mb-2" type="text" th:field="*{lastName}" /></td>
+        </tr>
+        <tr>
+          <td><label>Birth Date</label></td>
+          <td><input id="birth-date" class="form-control mb-2" type="date" th:field="*{birthDate}" /></td>
+        </tr>
+      </table>
+      <div class="mt-2">
+        <button class="btn btn-primary" type="submit">Save</button>
+        <a class="btn btn-secondary" th:href="@{/employee}">Cancel</a>
+      </div>
+    </form>
+  </div>
+</body>
+</html>

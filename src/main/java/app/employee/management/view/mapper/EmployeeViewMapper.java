@@ -1,6 +1,7 @@
 package app.employee.management.view.mapper;
 
 
+import app.employee.management.view.model.CreateEmployee;
 import app.employee.management.view.model.Employee;
 import java.io.IOException;
 import java.time.Instant;
@@ -56,6 +57,14 @@ public class EmployeeViewMapper {
         .firstName(domain.getFirstname())
         .lastName(domain.getLastname())
         .birthDate(fromInstantToString(domain.getBirthDate()))
+        .build();
+  }
+
+  public app.employee.management.model.Employee toDomain(CreateEmployee view) {
+    return app.employee.management.model.Employee.builder()
+        .firstname(view.getFirstName())
+        .lastname(view.getLastName())
+        .birthDate(fromStringToInstant(view.getBirthDate()))
         .build();
   }
 }

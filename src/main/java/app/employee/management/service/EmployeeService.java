@@ -26,4 +26,8 @@ public class EmployeeService {
         .map(mapper::toDomain)
         .toList();
   }
+
+  public Employee crupdateEmployee(Employee employee) {
+    return mapper.toDomain(repository.save(mapper.toEntity(employee)));
+  }
 }
