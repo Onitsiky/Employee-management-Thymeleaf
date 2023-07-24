@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class EmployeeController {
   private final EmployeeService service;
   private final EmployeeViewMapper mapper;
+  private final CreateEmployeeValidator validator;
 
   @GetMapping("/employee")
   public String employeeList(@RequestParam(required = false) Integer page,
@@ -37,6 +38,7 @@ public class EmployeeController {
 
   @PostMapping("/save-employee")
   public String saveEmployee(@ModelAttribute CreateEmployee employee) {
+    validator.accept(employee);
     service.crupdateEmployee(mapper.toDomain(employee));
     return "redirect:/employee";
   }
