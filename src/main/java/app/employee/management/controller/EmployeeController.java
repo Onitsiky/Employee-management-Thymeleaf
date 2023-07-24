@@ -1,5 +1,6 @@
 package app.employee.management.controller;
 
+import app.employee.management.controller.validator.CreateEmployeeValidator;
 import app.employee.management.service.EmployeeService;
 import app.employee.management.view.mapper.EmployeeViewMapper;
 import app.employee.management.view.model.CreateEmployee;
@@ -30,6 +31,13 @@ public class EmployeeController {
     return "employee-list";
   }
 
+  @GetMapping("/employee-details")
+  public String EmployeeDetails(Model model, @RequestParam("id") String id) {
+    Employee subject = mapper.toViewModel(service.getById(id));
+    model.addAttribute("employee", subject);
+    return "employee-details";
+  }
+
   @GetMapping("/add-employee")
   public String employeeForm(Model model) {
     model.addAttribute("employee", new CreateEmployee());
@@ -39,6 +47,12 @@ public class EmployeeController {
   @PostMapping("/save-employee")
   public String saveEmployee(@ModelAttribute CreateEmployee employee) {
     validator.accept(employee);
+    service.crupdateEmployee(mapper.toDomain(employee));
+    return "redirect:/employee";
+  }
+
+  @PostMapping("/update-employee")
+  public String updateEmployee(@ModelAttribute Employee employee) {
     service.crupdateEmployee(mapper.toDomain(employee));
     return "redirect:/employee";
   }

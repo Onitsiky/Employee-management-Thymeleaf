@@ -1,4 +1,4 @@
-package app.employee.management.controller;
+package app.employee.management.controller.validator;
 
 import app.employee.management.utils.exception.BadRequestException;
 import app.employee.management.view.model.CreateEmployee;

@@ -67,4 +67,13 @@ public class EmployeeViewMapper {
         .birthDate(fromStringToInstant(view.getBirthDate()))
         .build();
   }
+
+  public app.employee.management.model.Employee toDomain(Employee view) {
+    return app.employee.management.model.Employee.builder()
+        .id(view.getId())
+        .firstname(view.getFirstName())
+        .lastname(view.getLastName())
+        .birthDate(fromStringToInstant(view.getBirthDate()))
+        .build();
+  }
 }

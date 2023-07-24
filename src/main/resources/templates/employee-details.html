@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Employee Details</title>
+  <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+  <link rel="stylesheet" th:href="@{/css/main.css}">
+</head>
+<script>
+  var currentDate = new Date().toISOString().split('T')[0];
+  function setMaxDate() {
+    var dateField = document.getElementById('birthDate');
+    dateField.setAttribute('max', currentDate);
+  }
+</script>
+<body onload="setMaxDate()">
+<form class="card" th:object="${employee}" action="#" th:action="@{/update-employee}" method="post">
+  <div>
+    <div class="mb-3">
+      <input type="hidden" class="form-control" id="id" th:value="${employee.id}" th:field="*{id}">
+    </div>
+    <div class="mb-3">
+      <label for="firstName" class="form-label">First Name</label>
+      <input type="text" class="form-control" id="firstName" th:value="${employee.firstName}" th:field="*{firstName}" readonly>
+    </div>
+    <div class="mb-3">
+      <label for="lastName" class="form-label">Last Name</label>
+      <input type="text" class="form-control" id="lastName" th:value="${employee.lastName}" th:field="*{lastName}" readonly>
+    </div>
+    <div class="mb-3">
+      <label for="birthDate" class="form-label">Birth Date</label>
+      <input type="date" class="form-control" id="birthDate" th:value="${employee.birthDate}" th:field="*{birthDate}" readonly>
+    </div>
+    <button type="button" class="btn btn-primary" id="editButton">Edit</button>
+    <button type="submit" class="btn btn-primary" id="saveButton" disabled>Save</button>
+    <a class="btn btn-secondary" th:href="@{/employee}">Close</a>
+  </div>
+</form>
+</body>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script>
+  document.getElementById("editButton").addEventListener("click", function() {
+    document.getElementById("firstName").removeAttribute("readonly");
+    document.getElementById("lastName").removeAttribute("readonly");
+    document.getElementById("birthDate").removeAttribute("readonly");
+    document.getElementById("saveButton").removeAttribute("disabled");
+    // document.getElementById("sex").removeAttribute("readonly");
+    // document.getElementById("cnapsNumber").removeAttribute("readonly");
+    // document.getElementById("departureDate").removeAttribute("readonly");
+    // document.getElementById("childrenInCharge").removeAttribute("readonly");
+    // document.getElementById("function").removeAttribute("readonly");
+    // document.getElementById("idCardDeliveredDate").removeAttribute("readonly");
+    // document.getElementById("idCardDeliveredPlace").removeAttribute("readonly");
+    // document.getElementById("idCardNumber").removeAttribute("readonly");
+    // document.getElementById("address").removeAttribute("readonly");
+    // document.getElementById("professionalEmail").removeAttribute("readonly");
+    // document.getElementById("personalEmail").removeAttribute("readonly");
+  });
+</script>
+</html>
