@@ -20,4 +20,6 @@ public class Employee implements Serializable {
   private String firstname;
   private String lastname;
   private Instant birthDate;
+  private byte[] image;
+  private String personalNumber;
 }

@@ -20,6 +20,8 @@
     </thead>
     <tbody>
     <tr th:each="employee : ${employees}" th:data-name="${employee.id}" th:onclick="redirectToEmployeeDetails(this.getAttribute('data-name'))">
+        <td><img class="rounded-circle circle-image" src="#" th:src="@{'data:image/jpeg;base64,' + ${employee.image}}" alt="Employee Image"></td>
+        <td class="p-5" th:text="${employee.personalNumber}"></td>
         <td class="p-5" th:text="${employee.firstName}"></td>
         <td class="p-5" th:text="${employee.lastName}"></td>
         <td class="p-5" th:text="${employee.birthDate}"></td>

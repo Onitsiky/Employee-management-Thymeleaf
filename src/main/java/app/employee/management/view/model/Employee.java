@@ -16,4 +16,6 @@ public class Employee {
   private String firstName;
   private String lastName;
   private String birthDate;
+  private String image;
+  private String personalNumber;
 }

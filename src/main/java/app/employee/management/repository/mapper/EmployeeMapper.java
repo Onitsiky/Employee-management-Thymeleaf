@@ -12,6 +12,8 @@ public class EmployeeMapper {
         .firstName(domain.getFirstname())
         .lastName(domain.getLastname())
         .birthDate(domain.getBirthDate())
+        .image(domain.getImage())
+        .personalNumber(domain.getPersonalNumber())
         .build();
   }
 
@@ -21,6 +23,8 @@ public class EmployeeMapper {
         .firstname(entity.getFirstName())
         .lastname(entity.getLastName())
         .birthDate(entity.getBirthDate())
+        .image(entity.getImage())
+        .personalNumber(entity.getPersonalNumber())
         .build();
   }
 }

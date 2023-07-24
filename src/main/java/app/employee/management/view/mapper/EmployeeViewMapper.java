@@ -57,6 +57,8 @@ public class EmployeeViewMapper {
         .firstName(domain.getFirstname())
         .lastName(domain.getLastname())
         .birthDate(fromInstantToString(domain.getBirthDate()))
+        .image(fromByteToBase64(domain.getImage()))
+        .personalNumber(domain.getPersonalNumber())
         .build();
   }
 
@@ -65,6 +67,7 @@ public class EmployeeViewMapper {
         .firstname(view.getFirstName())
         .lastname(view.getLastName())
         .birthDate(fromStringToInstant(view.getBirthDate()))
+        .image(fromMultipartFileToByte(view.getImage()))
         .build();
   }
 
@@ -74,6 +77,8 @@ public class EmployeeViewMapper {
         .firstname(view.getFirstName())
         .lastname(view.getLastName())
         .birthDate(fromStringToInstant(view.getBirthDate()))
+        .image(fromBase64ToByte(view.getImage()))
+        .personalNumber(view.getPersonalNumber())
         .build();
   }
 }

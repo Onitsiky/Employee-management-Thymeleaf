@@ -15,9 +15,17 @@
 </script>
 <body onload="setMaxDate()">
 <form class="card" th:object="${employee}" action="#" th:action="@{/update-employee}" method="post">
+  <div class="text-center" >
+    <img class="rounded-circle circle-image" src="#" th:src="@{'data:image/jpeg;base64,' + ${employee.image}}" alt="Employee Image">
+  </div>
   <div>
     <div class="mb-3">
       <input type="hidden" class="form-control" id="id" th:value="${employee.id}" th:field="*{id}">
+      <input type="hidden" class="form-control" id="image" th:value="${employee.image}" th:field="*{image}">
+    </div>
+    <div class="mb-3">
+      <label for="personalNumber" class="form-label">Personal Number</label>
+      <input type="text" class="form-control" id="personalNumber" th:value="${employee.personalNumber}" th:field="*{personalNumber}" readonly>
     </div>
     <div class="mb-3">
       <label for="firstName" class="form-label">First Name</label>

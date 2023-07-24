@@ -25,4 +25,6 @@ public class EmployeeEntity implements Serializable {
   private String firstName;
   private String lastName;
   private Instant birthDate;
+  private byte[] image;
+  private String personalNumber;
 }
