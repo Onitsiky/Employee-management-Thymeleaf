@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,6 +17,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode
 @Builder(toBuilder = true)
 @Entity(name = "phone_number")
+@ToString
 public class PhoneNumberEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)

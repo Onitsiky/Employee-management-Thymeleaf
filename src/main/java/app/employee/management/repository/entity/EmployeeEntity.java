@@ -21,6 +21,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.ColumnTransformer;
 
 @AllArgsConstructor
@@ -29,6 +30,7 @@ import org.hibernate.annotations.ColumnTransformer;
 @EqualsAndHashCode
 @Builder(toBuilder = true)
 @Entity(name = "employee")
+@ToString
 public class EmployeeEntity implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
