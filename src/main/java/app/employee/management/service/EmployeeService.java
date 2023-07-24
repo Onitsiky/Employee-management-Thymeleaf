@@ -23,7 +23,6 @@ public class EmployeeService {
   public Employee getById(String id) {
     Optional<EmployeeEntity> actual = repository.findById(id);
     if(actual.isPresent()) {
-      log.info("Employee: {}", actual.get());
       return mapper.toDomain(actual.get());
     }
     throw new NotFoundException("The employee (id=" + id + ") is not found");
