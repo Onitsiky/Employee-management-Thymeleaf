@@ -7,6 +7,17 @@
     <link rel="stylesheet" th:href="@{/css/main.css}">
 </head>
 <body>
+<div class="banner">
+    <div class="image-circle">
+        <img class="profile-image" th:src="@{'/path/to/your/image.jpg'}" alt="Profile Image">
+    </div>
+    <div class="name">
+        <h3 th:text="${company.companyName}"></h3>
+    </div>
+    <div class="middle-sentence">
+        <p th:text="${company.slogan}"></p>
+    </div>
+</div>
 <main class="container mt-4">
     <form th:action="@{/employee/search}" method="get" class="row">
         <div class="col-md-3 mb-1">
@@ -119,6 +130,23 @@
     <a class="btn btn-secondary" th:href="@{/add-employee}">Add new employee</a>
     <button class="btn btn-primary" onclick="exportData()">Export</button>
 </main>
+<footer class="mt-5">
+    <div class="container">
+        <div class="footer-content text-center">
+            <h4>Your Name</h4>
+            <p>Contact Email: contact@example.com</p>
+            <p>Address: 123 Main Street, City, Country</p>
+            <p>NIF: XXXXXXXX</p>
+            <p>STAT: XXXXXXXX</p>
+            <p>RCS: XXXXXXXX</p>
+            <p>Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        </div>
+    </div>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script type="text/javascript" th:src="@{/js/main.js}"></script>
 <script>
     function exportData() {

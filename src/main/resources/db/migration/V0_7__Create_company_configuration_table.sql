@@ -1,6 +1,7 @@
 create table if not exists company_configuration(
     id varchar primary key default uuid_generate_v4(),
     company_name varchar not null,
+    description varchar,
     slogan varchar,
     exact_address varchar,
     contact_email varchar,

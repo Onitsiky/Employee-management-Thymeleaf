@@ -1,8 +1,10 @@
 package app.employee.management.controller;
 
 import app.employee.management.controller.validator.CreateEmployeeValidator;
+import app.employee.management.model.CompanyConfiguration;
 import app.employee.management.repository.enums.OrderEnum;
 import app.employee.management.repository.enums.SexEnum;
+import app.employee.management.service.CompanyConfigurationService;
 import app.employee.management.service.EmployeeService;
 import app.employee.management.service.SPCService;
 import app.employee.management.view.mapper.EmployeeViewMapper;
@@ -31,12 +33,14 @@ public class EmployeeController {
   private final CreateEmployeeValidator validator;
   private final SPCService spcService;
   private final SPCViewMapper spcViewMapper;
+  private final CompanyConfigurationService companyConfigurationService;
   @GetMapping("/employee")
   public String employeeList(@RequestParam(required = false) Integer page,
                              @RequestParam(required = false) Integer pageSize, Model model) {
     List<Employee> employees = service.getAllEmployees(page, pageSize).stream()
         .map(mapper::toViewModel)
         .toList();
+    CompanyConfiguration companyConfiguration = companyConfigurationService.getCompanyByName("Via");
     return getModelAttributes(model, employees);
   }
 
