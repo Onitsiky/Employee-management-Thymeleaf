@@ -16,15 +16,43 @@
         <th>First Name</th>
         <th>Last Name</th>
         <th>Birth Date</th>
+        <th>Sex</th>
+        <th>Address</th>
+        <th>Personal Email</th>
+        <th>Professional Email</th>
+        <th>Id Card Number</th>
+        <th>Id Card Delivered Date</th>
+        <th>Id Card Delivered Place</th>
+        <th>Function</th>
+        <th>Number of Children in Charge</th>
+        <th>Hiring Date</th>
+        <th>Departure Date</th>
+        <th>CNAPS Number</th>
+        <th>Phone Numbers</th>
+        <th>SPC</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="employee : ${employees}" th:data-name="${employee.id}" th:onclick="redirectToEmployeeDetails(this.getAttribute('data-name'))">
         <td><img class="rounded-circle circle-image" src="#" th:src="@{'data:image/jpeg;base64,' + ${employee.image}}" alt="Employee Image"></td>
-        <td class="p-5" th:text="${employee.personalNumber}"></td>
-        <td class="p-5" th:text="${employee.firstName}"></td>
-        <td class="p-5" th:text="${employee.lastName}"></td>
-        <td class="p-5" th:text="${employee.birthDate}"></td>
+        <td th:text="${employee.personalNumber}"></td>
+        <td th:text="${employee.firstName}"></td>
+        <td th:text="${employee.lastName}"></td>
+        <td th:text="${employee.birthDate}"></td>
+        <td th:text="${employee.sex}"></td>
+        <td th:text="${employee.address}"></td>
+        <td th:text="${employee.personalEmail}"></td>
+        <td th:text="${employee.professionalEmail}"></td>
+        <td th:text="${employee.idCardNumber}"></td>
+        <td th:text="${employee.idCardDeliveredDate}"></td>
+        <td th:text="${employee.idCardDeliveredPlace}"></td>
+        <td th:text="${employee.function}"></td>
+        <td th:text="${employee.childrenInCharge}"></td>
+        <td th:text="${employee.hiringDate}"></td>
+        <td th:text="${employee.departureDate}"></td>
+        <td th:text="${employee.cnapsNumber}"></td>
+        <td><p th:each="phoneNumber : ${employee.phoneNumbers}" th:text="${phoneNumber.number}"></p></td>
+        <td><p th:each="spc : ${employee.spc}" th:text="${spc.categoryName}"></p></td>
     </tr>
     </tbody>
 </table>
