@@ -1,17 +1,23 @@
 package app.employee.management.service;
 
 import app.employee.management.model.Employee;
+import app.employee.management.model.PhoneNumber;
+import app.employee.management.model.SPC;
 import app.employee.management.repository.entity.EmployeeEntity;
 import app.employee.management.repository.enums.OrderEnum;
 import app.employee.management.repository.enums.SexEnum;
 import app.employee.management.repository.jpa.EmployeeJpaRepository;
 import app.employee.management.repository.mapper.EmployeeMapper;
 import app.employee.management.utils.exception.NotFoundException;
+import app.employee.management.view.model.EmployeeDatas;
+import com.opencsv.CSVWriter;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +30,8 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.jpa.repository.query.QueryUtils;
 import org.springframework.stereotype.Service;
+
+import static app.employee.management.view.mapper.EmployeeViewMapper.fromInstantToString;
 
 @Service
 @AllArgsConstructor
@@ -132,8 +140,33 @@ public class EmployeeService {
         .map(mapper::toDomain)
         .toList();
   }
-
   public Employee crupdateEmployee(Employee employee) {
     return mapper.toDomain(repository.save(mapper.toEntity(employee)));
+  }
+
+  public void exportDatasToCsv(List<EmployeeDatas> employees) {
+    try (CSVWriter writer = new CSVWriter(new FileWriter("./files/employees.csv"))) {
+      String[] header =
+          {"Id", "First Name", "Last Name", "Birth Date", "Personal Number", "Sex", "Address",
+              "Personal Email", "Professional Email", "Id Card Number", "Id Card Delivered Date",
+              "Id Card Delivered Place", "Function", "Children In Charge", "Hiring Date",
+              "Departure Date", "CNAPS Number", "Phone Numbers", "SPC"};
+      writer.writeNext(header);
+      for (EmployeeDatas employee : employees) {
+        String[] rowData = {employee.getId(), employee.getFirstName(), employee.getLastName(),
+            employee.getBirthDate(), employee.getPersonalNumber(),
+            String.valueOf(employee.getSex()), employee.getAddress(), employee.getPersonalEmail()
+            , employee.getProfessionalEmail(), employee.getIdCardNumber(),
+            employee.getIdCardDeliveredDate(),
+            employee.getIdCardDeliveredPlace(), employee.getFunction(),
+            String.valueOf(employee.getChildrenInCharge()),
+            employee.getHiringDate(),
+            employee.getDepartureDate(), employee.getCnapsNumber(),
+            employee.getPhoneNumbers().toString(), employee.getSpc().toString()};
+        writer.writeNext(rowData);
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 }

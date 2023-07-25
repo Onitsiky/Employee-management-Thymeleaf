@@ -9,6 +9,7 @@ import app.employee.management.view.mapper.EmployeeViewMapper;
 import app.employee.management.view.mapper.SPCViewMapper;
 import app.employee.management.view.model.CreateEmployee;
 import app.employee.management.view.model.Employee;
+import app.employee.management.view.model.EmployeeDatas;
 import app.employee.management.view.model.SPC;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -18,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -94,6 +96,13 @@ public class EmployeeController {
   @PostMapping("/update-employee")
   public String updateEmployee(@ModelAttribute Employee employee) {
     service.crupdateEmployee(mapper.toDomain(employee));
+    return "redirect:/employee";
+  }
+
+  @PostMapping("/employee/export")
+  public String exportEmployeeList(@RequestBody List<EmployeeDatas> employees) {
+    log.info("Payload: {}", employees);
+    service.exportDatasToCsv(employees);
     return "redirect:/employee";
   }
 }
