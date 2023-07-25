@@ -1,6 +1,7 @@
 package app.employee.management.controller;
 
 import app.employee.management.controller.validator.CreateEmployeeValidator;
+import app.employee.management.repository.enums.OrderEnum;
 import app.employee.management.repository.enums.SexEnum;
 import app.employee.management.service.EmployeeService;
 import app.employee.management.service.SPCService;
@@ -34,8 +35,7 @@ public class EmployeeController {
     List<Employee> employees = service.getAllEmployees(page, pageSize).stream()
         .map(mapper::toViewModel)
         .toList();
-    model.addAttribute("employees", employees);
-    return "employee-list";
+    return getModelAttributes(model, employees);
   }
 
   @GetMapping("/employee-details")
@@ -55,6 +55,33 @@ public class EmployeeController {
     model.addAttribute("sexEnumF", SexEnum.F);
     model.addAttribute("socioProCategories", spcs);
     return "employee-form";
+  }
+
+  @GetMapping("/employee/search")
+  public String employeeFilteredList(@RequestParam(value = "lastName", required = false) String lastName,
+                                     @RequestParam(value = "firstName", required = false) String firstName,
+                                     @RequestParam(value = "function", required = false) String function,
+                                     @RequestParam(value = "sex", required = false) SexEnum sex,
+                                     @RequestParam(value = "lastNameOrder", required = false) OrderEnum lastNameOrder,
+                                     @RequestParam(value = "firstNameOrder", required = false) OrderEnum firstNameOrder,
+                                     @RequestParam(value = "sexOrder", required = false) OrderEnum sexOrder,
+                                     @RequestParam(value = "functionOrder", required = false) OrderEnum functionOrder,
+                                     Model model) {
+    List<Employee> filteredEmployees = service.getEmployeeByCriteria(lastName, firstName, sex,
+        function, lastNameOrder, firstNameOrder, sexOrder, functionOrder, 0, 10).stream()
+        .map(mapper::toViewModel)
+        .toList();
+    return getModelAttributes(model, filteredEmployees);
+  }
+
+  private String getModelAttributes(Model model, List<Employee> filteredEmployees) {
+    model.addAttribute("employees", filteredEmployees);
+    model.addAttribute("sexEnumM", SexEnum.M);
+    model.addAttribute("sexEnumF", SexEnum.F);
+    model.addAttribute("orderASC", OrderEnum.ASC);
+    model.addAttribute("orderDESC", OrderEnum.DESC);
+    model.addAttribute("null", null);
+    return "employee-list";
   }
 
   @PostMapping("/save-employee")

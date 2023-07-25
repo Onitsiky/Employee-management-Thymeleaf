@@ -2,15 +2,27 @@ package app.employee.management.service;
 
 import app.employee.management.model.Employee;
 import app.employee.management.repository.entity.EmployeeEntity;
+import app.employee.management.repository.enums.OrderEnum;
+import app.employee.management.repository.enums.SexEnum;
 import app.employee.management.repository.jpa.EmployeeJpaRepository;
 import app.employee.management.repository.mapper.EmployeeMapper;
 import app.employee.management.utils.exception.NotFoundException;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort.Order;
+import org.springframework.data.jpa.repository.query.QueryUtils;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,10 +31,65 @@ import org.springframework.stereotype.Service;
 public class EmployeeService {
   private final EmployeeJpaRepository repository;
   private final EmployeeMapper mapper;
+  private final EntityManager entityManager;
+
+  private static Predicate[] retrieveNotNullPredicates(String lastName, String firstName,
+                                                       SexEnum sex, String function,
+                                                       CriteriaBuilder builder,
+                                                       Root<EmployeeEntity> root,
+                                                       List<Predicate> predicates) {
+    if (firstName != null) {
+      predicates.add(builder.or(
+          builder.like(root.get("firstName"), "%" + firstName + "%"),
+          builder.like(builder.lower(root.get("firstName")), "%" + firstName + "%")
+      ));
+    }
+    if (lastName != null) {
+      predicates.add(builder.or(
+          builder.like(root.get("lastName"), "%" + lastName + "%"),
+          builder.like(builder.lower(root.get("lastName")), "%" + lastName + "%")
+      ));
+    }
+    if (sex != null) {
+      predicates.add(builder.equal(root.get("sex"), sex));
+    }
+    if (function != null) {
+      predicates.add(builder.or(
+          builder.like(root.get("function"), "%" + function + "%"),
+          builder.like(builder.lower(root.get("function")), "%" + function + "%")
+      ));
+    }
+    return new Predicate[predicates.size()];
+  }
+
+  private static List<Order> retrieveOrders(OrderEnum firstNameOrder, OrderEnum lastNameOrder,
+                                            OrderEnum sexOrder, OrderEnum functionOrder) {
+    List<Order> orders = new ArrayList<>();
+    if (firstNameOrder != null) {
+      orders.add(new Order(getOrderValue(firstNameOrder), "firstName"));
+    }
+    if (lastNameOrder != null) {
+      orders.add(new Order(getOrderValue(lastNameOrder), "lastName"));
+    }
+    if (sexOrder != null) {
+      orders.add(new Order(getOrderValue(sexOrder), "sex"));
+    }
+    if (functionOrder != null) {
+      orders.add(new Order(getOrderValue(functionOrder), "function"));
+    }
+    return orders;
+  }
+
+  private static Direction getOrderValue(OrderEnum orderEnum) {
+    if (orderEnum == OrderEnum.ASC) {
+      return Direction.ASC;
+    }
+    return Direction.DESC;
+  }
 
   public Employee getById(String id) {
     Optional<EmployeeEntity> actual = repository.findById(id);
-    if(actual.isPresent()) {
+    if (actual.isPresent()) {
       return mapper.toDomain(actual.get());
     }
     throw new NotFoundException("The employee (id=" + id + ") is not found");
@@ -30,12 +97,38 @@ public class EmployeeService {
 
   public List<Employee> getAllEmployees(Integer page, Integer pageSize) {
     Pageable pageable;
-    if(page == null || pageSize == null) {
-      pageable = PageRequest.of(0,10);
+    if (page == null || pageSize == null) {
+      pageable = PageRequest.of(0, 10);
     } else {
-       pageable = PageRequest.of(page, pageSize);
+      pageable = PageRequest.of(page, pageSize);
     }
     return repository.findAll(pageable).toList().stream()
+        .map(mapper::toDomain)
+        .toList();
+  }
+
+  public List<Employee> getEmployeeByCriteria(String lastName, String firstName, SexEnum sex,
+                                              String function, OrderEnum lastNameOrder,
+                                              OrderEnum firstNameOrder, OrderEnum sexOrder,
+                                              OrderEnum functionOrder, Integer page,
+                                              Integer pageSize) {
+    CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+    CriteriaQuery<EmployeeEntity> query = criteriaBuilder.createQuery(EmployeeEntity.class);
+    List<Order> orders = retrieveOrders(lastNameOrder, firstNameOrder, sexOrder, functionOrder);
+    Pageable pageable = PageRequest.of(page, pageSize, Sort.by(orders));
+    Root<EmployeeEntity> root = query.from(EmployeeEntity.class);
+    List<Predicate> predicates = new ArrayList<>();
+    Predicate[] predicatesArray = retrieveNotNullPredicates(lastName, firstName, sex, function,
+        criteriaBuilder, root, predicates);
+    query
+        .where(criteriaBuilder.and(predicates.toArray(predicatesArray)))
+        .orderBy(QueryUtils.toOrders(pageable.getSort(), root, criteriaBuilder));
+
+    return entityManager.createQuery(query)
+        .setFirstResult((pageable.getPageNumber()) * pageable.getPageSize())
+        .setMaxResults(pageable.getPageSize())
+        .getResultList()
+        .stream()
         .map(mapper::toDomain)
         .toList();
   }

@@ -7,57 +7,117 @@
     <link rel="stylesheet" th:href="@{/css/main.css}">
 </head>
 <body>
-<main>
-<table class="table table-striped table-hover mt-5">
-    <thead>
-    <tr>
-        <th>#</th>
-        <th>Personal Number</th>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Birth Date</th>
-        <th>Sex</th>
-        <th>Address</th>
-        <th>Personal Email</th>
-        <th>Professional Email</th>
-        <th>Id Card Number</th>
-        <th>Id Card Delivered Date</th>
-        <th>Id Card Delivered Place</th>
-        <th>Function</th>
-        <th>Number of Children in Charge</th>
-        <th>Hiring Date</th>
-        <th>Departure Date</th>
-        <th>CNAPS Number</th>
-        <th>Phone Numbers</th>
-        <th>SPC</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="employee : ${employees}" th:data-name="${employee.id}" th:onclick="redirectToEmployeeDetails(this.getAttribute('data-name'))">
-        <td><img class="rounded-circle circle-image" src="#" th:src="@{'data:image/jpeg;base64,' + ${employee.image}}" alt="Employee Image"></td>
-        <td th:text="${employee.personalNumber}"></td>
-        <td th:text="${employee.firstName}"></td>
-        <td th:text="${employee.lastName}"></td>
-        <td th:text="${employee.birthDate}"></td>
-        <td th:text="${employee.sex}"></td>
-        <td th:text="${employee.address}"></td>
-        <td th:text="${employee.personalEmail}"></td>
-        <td th:text="${employee.professionalEmail}"></td>
-        <td th:text="${employee.idCardNumber}"></td>
-        <td th:text="${employee.idCardDeliveredDate}"></td>
-        <td th:text="${employee.idCardDeliveredPlace}"></td>
-        <td th:text="${employee.function}"></td>
-        <td th:text="${employee.childrenInCharge}"></td>
-        <td th:text="${employee.hiringDate}"></td>
-        <td th:text="${employee.departureDate}"></td>
-        <td th:text="${employee.cnapsNumber}"></td>
-        <td><p th:each="phoneNumber : ${employee.phoneNumbers}" th:text="${phoneNumber.number}"></p></td>
-        <td><p th:each="spc : ${employee.spc}" th:text="${spc.categoryName}"></p></td>
-    </tr>
-    </tbody>
-</table>
-<a class="btn btn-secondary" th:href="@{/add-employee}">Add new employee</a>
+<main class="container mt-4">
+    <form th:action="@{/employee/search}" method="get" class="row">
+        <div class="col-md-3 mb-1">
+            <input class="form-control" type="text" name="lastName" placeholder="Enter search keyword for last name">
+        </div>
+        <div class="col-md-3 mb-1">
+            <input class="form-control" type="text" name="firstName" placeholder="Enter search keyword for first name">
+        </div>
+        <div class="col-md-3 mb-1">
+            <input class="form-control" type="text" name="function" placeholder="Enter search keyword for function">
+        </div>
+        <div class="col-md-3 mb-1">
+            <select class="form-control" name="sex">
+                <option th:value="${null}">-- Select direction --</option>
+                <option th:value="${sexEnumM}">Male</option>
+                <option th:value="${sexEnumF}">Female</option>
+            </select>
+        </div>
+        <div class="col-md-3 mb-1">
+            <select class="form-control" name="lastNameOrder">
+                <option th:value="${null}">-- Select direction --</option>
+                <option th:value="${orderASC}">ASC</option>
+                <option th:value="${orderDESC}">DESC</option>
+            </select>
+        </div>
+        <div class="col-md-3 mb-1">
+            <select class="form-control" name="firstNameOrder">
+                <option th:value="${null}">-- Select direction --</option>
+                <option th:value="${orderASC}">ASC</option>
+                <option th:value="${orderDESC}">DESC</option>
+            </select>
+        </div>
+        <div class="col-md-3 mb-1">
+            <select class="form-control" name="sexOrder">
+                <option th:value="${null}">-- Select direction --</option>
+                <option th:value="${orderASC}">ASC</option>
+                <option th:value="${orderDESC}">DESC</option>
+            </select>
+        </div>
+        <div class="col-md-3 mb-1">
+            <select class="form-control" name="functionOrder">
+                <option th:value="${null}">-- Select direction --</option>
+                <option th:value="${orderASC}">ASC</option>
+                <option th:value="${orderDESC}">DESC</option>
+            </select>
+        </div>
+        <div class="col-md-12">
+            <button class="btn btn-secondary" type="submit">Search</button>
+            <a class="btn btn-secondary" th:href="@{/employee}">Reset</a>
+        </div>
+    </form>
+    <div class="table-responsive mt-2 w-100">
+        <table class="table table-striped table-hover">
+            <thead class="thead-dark">
+            <tr>
+                <th>#</th>
+                <th>Personal Number</th>
+                <th class="sortable-column">First Name <span class="fa-sort-up"></span></th>
+                <th>Last Name</th>
+                <th>Birth Date</th>
+                <th>Sex</th>
+                <th>Address</th>
+                <th>Personal Email</th>
+                <th>Professional Email</th>
+                <th>Id Card Number</th>
+                <th>Id Card Delivered Date</th>
+                <th>Id Card Delivered Place</th>
+                <th>Function</th>
+                <th>Number of Children in Charge</th>
+                <th>Hiring Date</th>
+                <th>Departure Date</th>
+                <th>CNAPS Number</th>
+                <th>Phone Numbers</th>
+                <th>SPC</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="employee : ${employees}" th:data-name="${employee.id}" th:onclick="redirectToEmployeeDetails(this.getAttribute('data-name'))">
+                <td><img class="rounded-circle circle-image" src="#" th:src="@{'data:image/jpeg;base64,' + ${employee.image}}" alt="Employee Image"></td>
+                <td th:text="${employee.personalNumber}"></td>
+                <td th:text="${employee.firstName}"></td>
+                <td th:text="${employee.lastName}"></td>
+                <td th:text="${employee.birthDate}"></td>
+                <td th:text="${employee.sex}"></td>
+                <td th:text="${employee.address}"></td>
+                <td th:text="${employee.personalEmail}"></td>
+                <td th:text="${employee.professionalEmail}"></td>
+                <td th:text="${employee.idCardNumber}"></td>
+                <td th:text="${employee.idCardDeliveredDate}"></td>
+                <td th:text="${employee.idCardDeliveredPlace}"></td>
+                <td th:text="${employee.function}"></td>
+                <td th:text="${employee.childrenInCharge}"></td>
+                <td th:text="${employee.hiringDate}"></td>
+                <td th:text="${employee.departureDate}"></td>
+                <td th:text="${employee.cnapsNumber}"></td>
+                <td>
+                    <ul class="list-unstyled">
+                        <li th:each="phoneNumber : ${employee.phoneNumbers}" th:text="${phoneNumber.number}"></li>
+                    </ul>
+                </td>
+                <td>
+                    <ul class="list-unstyled">
+                        <li th:each="spc : ${employee.spc}" th:text="${spc.categoryName}"></li>
+                    </ul>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <a class="btn btn-secondary" th:href="@{/add-employee}">Add new employee</a>
 </main>
-</body>
 <script type="text/javascript" th:src="@{/js/main.js}"></script>
+</body>
 </html>
