@@ -22,7 +22,15 @@ public class CreateEmployeeValidator implements Consumer<CreateEmployee> {
       throw new BadRequestException("Birth date is mandatory.");
     } else if (fromStringToInstant(subject.getBirthDate()).isAfter(Instant.now())) {
       throw new BadRequestException("Birth date can't be future.");
-
+    }
+    if(subject.getChildrenInCharge() < 0) {
+      throw new BadRequestException("The number of children in charge cannot be less than 0");
+    }
+    if(fromStringToInstant(subject.getHiringDate()).isAfter(Instant.now())) {
+      throw new BadRequestException("Hiring date cannot be future");
+    }
+    if (subject.getHiringDate() == null) {
+      throw new BadRequestException("Hiring date is mandatory.");
     }
   }
 }

@@ -1,14 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <meta charset="UTF-8">
 <title>Add new Employee</title>
 <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
 <link rel="stylesheet" th:href="@{/css/main.css}">
 <script>
-  var currentDate = new Date().toISOString().split('T')[0];
+  const currentDate = new Date().toISOString().split('T')[0];
+
   function setMaxDate() {
-    var dateField = document.getElementById('birth-date');
+    const dateField = document.getElementById('birth-date');
+    const hiringDate = document.getElementById('hiring-date');
+    const departureDate = document.getElementById('departure-date');
+    const idCardDeliveredDate = document.getElementById('id-card-delivered-date');
     dateField.setAttribute('max', currentDate);
+    hiringDate.setAttribute('max', currentDate);
+    departureDate.setAttribute('max', currentDate)
+    idCardDeliveredDate.setAttribute('max', currentDate)
+    hiringDate.addEventListener('change', function () {
+      const actual = new Date(this.value)
+      departureDate.setAttribute('min', actual.toISOString().split('T')[0])
+    })
   }
 </script>
 <body onload="setMaxDate()">
@@ -57,7 +68,7 @@
         </tr>
         <tr>
           <td><label>Id Card Delivered Date</label></td>
-          <td><input class="form-control mb-2" type="date" th:field="*{idCardDeliveredDate}" /></td>
+          <td><input id="id-card-delivered-date" class="form-control mb-2" type="date" th:field="*{idCardDeliveredDate}" /></td>
         </tr>
         <tr>
           <td><label>Id Card Place</label></td>
@@ -69,15 +80,15 @@
         </tr>
         <tr>
           <td><label>Children In Charge</label></td>
-          <td><input class="form-control mb-2" type="number" th:field="*{childrenInCharge}" /></td>
+          <td><input class="form-control mb-2" type="number" th:field="*{childrenInCharge}" min='0'/></td>
         </tr>
         <tr>
           <td><label>Hiring date</label></td>
-          <td><input class="form-control mb-2" type="date" th:field="*{hiringDate}" /></td>
+          <td><input id="hiring-date" class="form-control mb-2" type="date" th:field="*{hiringDate}" /></td>
         </tr>
         <tr>
           <td><label>Departure date</label></td>
-          <td><input class="form-control mb-2" type="date" th:field="*{departureDate}" /></td>
+          <td><input id="departure-date" class="form-control mb-2" type="date" th:field="*{departureDate}" /></td>
         </tr>
         <tr>
           <td><label>Cnaps Number</label></td>
@@ -86,7 +97,7 @@
         <tr>
           <td><label>Socio-professional category</label></td>
           <td>
-            <select th:field="*{socioProfessionalCategories}" id="categorySelect" name="socioProfessionalCategories" multiple>
+            <select th:field="*{socioProfessionalCategories}" id="categorySelect" name="socioProfessionalCategories" multiple="multiple">
               <option th:each="category : ${socioProCategories}" th:value="${category.id}" value="" th:text="${category.categoryName}">
               </option>
             </select>
@@ -129,4 +140,5 @@
     phoneCount++;
   }
 </script>
+<script th:src="@{/js/main.js}"></script>
 </html>
