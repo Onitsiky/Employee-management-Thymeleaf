@@ -46,6 +46,71 @@
       <label for="birthDate" class="form-label">Birth Date</label>
       <input type="date" class="form-control" id="birthDate" th:value="${employee.birthDate}" th:field="*{birthDate}" readonly>
     </div>
+    <div class="mb-3">
+      <label for="sex" class="form-label">Sex</label>
+      <select id="sex">
+        <option th:value="${sexEnumM}">M</option>
+        <option th:value="${sexEnumF}">F</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label for="address" class="form-label">Address</label>
+      <input type="text" class="form-control" id="address" th:value="${employee.address}" th:field="*{address}" readonly>
+    </div>
+    <div class="mb-3">
+      <label for="personalEmail" class="form-label">Personal Email</label>
+      <input type="text" class="form-control" id="personalEmail" th:value="${employee.personalEmail}" th:field="*{personalEmail}" readonly>
+    </div>
+    <div class="mb-3">
+      <label for="proEmail" class="form-label">Professional Email</label>
+      <input type="text" class="form-control" id="proEmail" th:value="${employee.professionalEmail}" th:field="*{professionalEmail}" readonly>
+    </div>
+    <div class="mb-3">
+      <label for="ICNumber" class="form-label">Id Card Number</label>
+      <input type="text" class="form-control" id="ICNumber" th:value="${employee.idCardNumber}" th:field="*{idCardNumber}" readonly>
+    </div>
+    <div class="mb-3">
+      <label for="ICDate" class="form-label">Id Card Delivered Date</label>
+      <input type="date" class="form-control" id="ICDate" th:value="${employee.idCardDeliveredDate}" th:field="*{idCardDeliveredDate}" readonly>
+    </div>
+    <div class="mb-3">
+      <label for="ICPlace" class="form-label">Id Card Delivered Place</label>
+      <input type="text" class="form-control" id="ICPlace" th:value="${employee.idCardDeliveredPlace}" th:field="*{idCardDeliveredPlace}" readonly>
+    </div>
+    <div class="mb-3">
+      <label for="function" class="form-label">Function</label>
+      <input type="text" class="form-control" id="function" th:value="${employee.function}" th:field="*{function}" readonly>
+    </div>
+    <div class="mb-3">
+      <label for="childrenNb" class="form-label">Children In Charge</label>
+      <input type="number" min="0" class="form-control" id="childrenNb" th:value="${employee.childrenInCharge}" th:field="*{childrenInCharge}" readonly>
+    </div>
+    <div class="mb-3">
+      <label for="hiringDate" class="form-label">Hiring Date</label>
+      <input type="date" class="form-control" id="hiringDate" th:value="${employee.hiringDate}" th:field="*{hiringDate}" readonly>
+    </div>
+    <div class="mb-3">
+      <label for="departureDate" class="form-label">Departure Date</label>
+      <input type="date" class="form-control" id="departureDate" th:value="${employee.departureDate}" th:field="*{departureDate}" readonly>
+    </div>
+    <div class="mb-3">
+      <label for="cnapsNumber" class="form-label">CNAPS Number</label>
+      <input type="text" class="form-control" id="cnapsNumber" th:value="${employee.cnapsNumber}" th:field="*{cnapsNumber}" readonly>
+    </div>
+    <div class="mb-3">
+      <label for="phoneNumber" class="form-label">Phone Numbers</label>
+      <div th:each="phoneNumber : ${employee.getPhoneNumbers()}">
+        <input type="text" class="form-control" id="phoneNumber" th:value="${phoneNumber.number}">
+        <br/>
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="spc" class="form-label">Socio-Professional Category</label>
+      <div th:each="spc : ${employee.spc}">
+        <input type="text" class="form-control" id="spc" th:value="${spc.categoryName}">
+        <br/>
+      </div>
+    </div>
     <button type="button" class="btn btn-primary" id="editButton">Edit</button>
     <button type="submit" class="btn btn-primary" id="saveButton" disabled>Save</button>
     <a class="btn btn-secondary" th:href="@{/employee}">Close</a>
@@ -61,17 +126,16 @@
     document.getElementById("saveButton").removeAttribute("disabled");
     document.getElementById("newImage").removeAttribute("disabled");
     document.getElementById("removeImage").removeAttribute("readonly");
-    // document.getElementById("sex").removeAttribute("readonly");
-    // document.getElementById("cnapsNumber").removeAttribute("readonly");
-    // document.getElementById("departureDate").removeAttribute("readonly");
-    // document.getElementById("childrenInCharge").removeAttribute("readonly");
-    // document.getElementById("function").removeAttribute("readonly");
-    // document.getElementById("idCardDeliveredDate").removeAttribute("readonly");
-    // document.getElementById("idCardDeliveredPlace").removeAttribute("readonly");
-    // document.getElementById("idCardNumber").removeAttribute("readonly");
-    // document.getElementById("address").removeAttribute("readonly");
-    // document.getElementById("professionalEmail").removeAttribute("readonly");
-    // document.getElementById("personalEmail").removeAttribute("readonly");
+    document.getElementById("cnapsNumber").removeAttribute("readonly");
+    document.getElementById("departureDate").removeAttribute("readonly");
+    document.getElementById("childrenNb").removeAttribute("readonly");
+    document.getElementById("function").removeAttribute("readonly");
+    document.getElementById("ICNumber").removeAttribute("readonly");
+    document.getElementById("ICPlace").removeAttribute("readonly");
+    document.getElementById("ICDate").removeAttribute("readonly");
+    document.getElementById("address").removeAttribute("readonly");
+    document.getElementById("proEmail").removeAttribute("readonly");
+    document.getElementById("personalEmail").removeAttribute("readonly");
   });
 
   function previewNewImage(event) {

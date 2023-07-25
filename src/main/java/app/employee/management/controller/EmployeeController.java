@@ -42,6 +42,8 @@ public class EmployeeController {
   public String EmployeeDetails(Model model, @RequestParam("id") String id) {
     Employee subject = mapper.toViewModel(service.getById(id));
     model.addAttribute("employee", subject);
+    model.addAttribute("sexEnumM", SexEnum.M);
+    model.addAttribute("sexEnumF", SexEnum.F);
     return "employee-details";
   }
 
@@ -57,7 +59,6 @@ public class EmployeeController {
 
   @PostMapping("/save-employee")
   public String saveEmployee(@ModelAttribute CreateEmployee employee) {
-    log.info("Payload; {}", employee);
     validator.accept(employee);
     service.crupdateEmployee(mapper.toDomain(employee));
     return "redirect:/employee";
