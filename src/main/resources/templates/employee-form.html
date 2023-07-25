@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-ead>
 <meta charset="UTF-8">
 <title>Add new Employee</title>
 <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
 <link rel="stylesheet" th:href="@{/css/main.css}">
-</head>
 <script>
   var currentDate = new Date().toISOString().split('T')[0];
   function setMaxDate() {
@@ -34,6 +32,73 @@ ead>
           <td><label>Employee Image</label></td>
           <td><input class="form-control mb-2" type="file" th:field="*{image}" /></td>
         </tr>
+        <tr>
+          <td><label>Gender</label></td>
+          <td><select th:field="*{sex}">
+            <option th:value="${sexEnumM}">Male</option>
+            <option th:value="${sexEnumF}">Female</option>
+          </select></td>
+        </tr>
+        <tr>
+          <td><label>Address</label></td>
+          <td><input class="form-control mb-2" type="text" th:field="*{address}" /></td>
+        </tr>
+        <tr>
+          <td><label>Personal Email</label></td>
+          <td><input class="form-control mb-2" type="email" th:field="*{personalEmail}" /></td>
+        </tr>
+        <tr>
+          <td><label>Professional Email</label></td>
+          <td><input class="form-control mb-2" type="email" th:field="*{professionalEmail}" /></td>
+        </tr>
+        <tr>
+          <td><label>Id Card Number</label></td>
+          <td><input class="form-control mb-2" type="text" th:field="*{idCardNumber}" /></td>
+        </tr>
+        <tr>
+          <td><label>Id Card Delivered Date</label></td>
+          <td><input class="form-control mb-2" type="date" th:field="*{idCardDeliveredDate}" /></td>
+        </tr>
+        <tr>
+          <td><label>Id Card Place</label></td>
+          <td><input class="form-control mb-2" type="text" th:field="*{idCardDeliveredPlace}" /></td>
+        </tr>
+        <tr>
+          <td><label>Function</label></td>
+          <td><input class="form-control mb-2" type="text" th:field="*{function}" /></td>
+        </tr>
+        <tr>
+          <td><label>Children In Charge</label></td>
+          <td><input class="form-control mb-2" type="number" th:field="*{childrenInCharge}" /></td>
+        </tr>
+        <tr>
+          <td><label>Hiring date</label></td>
+          <td><input class="form-control mb-2" type="date" th:field="*{hiringDate}" /></td>
+        </tr>
+        <tr>
+          <td><label>Departure date</label></td>
+          <td><input class="form-control mb-2" type="date" th:field="*{departureDate}" /></td>
+        </tr>
+        <tr>
+          <td><label>Cnaps Number</label></td>
+          <td><input class="form-control mb-2" type="text" th:field="*{cnapsNumber}" /></td>
+        </tr>
+        <tr>
+          <td><label>Socio-professional category</label></td>
+          <td>
+            <select th:field="*{socioProfessionalCategories}" id="categorySelect" name="socioProfessionalCategories" multiple>
+              <option th:each="category : ${socioProCategories}" th:value="${category.id}" value="" th:text="${category.categoryName}">
+              </option>
+            </select>
+          </td>
+        </tr>
+        <tr id="phoneNumbers">
+          <td><label for="phoneNumber">Phone Number:</label></td>
+          <td>
+            <input class="form-control mb-2" type="text" id="phoneNumber" th:field="*{phoneNumbers[0]}" required />
+          </td>
+          <td><button type="button" class="btn btn-secondary" onclick="addPhoneNumber()">Add Phone Number</button></td>
+        </tr>
       </table>
       <div class="mt-2">
         <button class="btn btn-primary" type="submit">Save</button>
@@ -42,4 +107,26 @@ ead>
     </form>
   </div>
 </body>
+<script th:inline="javascript">
+  let phoneCount = 1;
+
+  function addPhoneNumber() {
+    const phoneTr = document.createElement("tr");
+    const phoneTdLabel = document.createElement("td");
+    const phoneTdInput = document.createElement("td");
+    const phoneLabel = document.createElement("label");
+    phoneLabel.setAttribute("for", "phoneNumber" + phoneCount);
+    phoneLabel.textContent = "Phone Number:";
+    const phoneInput = document.createElement("input");
+    phoneInput.setAttribute("type", "text");
+    phoneInput.setAttribute("id", "phoneNumber" + phoneCount);
+    phoneInput.setAttribute("name", "phoneNumbers[" + phoneCount + "]");
+    phoneInput.setAttribute("required", "");
+    phoneInput.setAttribute("class","form-control mb-2")
+    phoneTr.appendChild(phoneTdLabel.appendChild(phoneLabel));
+    phoneTr.appendChild(phoneTdInput.appendChild(phoneInput));
+    document.getElementById("registration").appendChild(phoneTr);
+    phoneCount++;
+  }
+</script>
 </html>

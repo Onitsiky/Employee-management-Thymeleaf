@@ -60,5 +60,5 @@ public class EmployeeEntity implements Serializable {
   @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(name = "employee_category", joinColumns = @JoinColumn(name = "employee_id"),
       inverseJoinColumns = @JoinColumn(name = "category_id"))
-  private List<SocioProfessionalCategoryEntity> scpCategories;
+  private List<SPCEntity> scpCategories;
 }

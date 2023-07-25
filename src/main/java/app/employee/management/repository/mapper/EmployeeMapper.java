@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class EmployeeMapper {
   private final PhoneNumberMapper phoneNumberMapper;
-  private final SCPMapper scpMapper;
+  private final SPCMapper SPCMapper;
 
   public EmployeeEntity toEntity(Employee domain) {
     return EmployeeEntity.builder()
@@ -32,7 +32,7 @@ public class EmployeeMapper {
         .departureDate(domain.getDepartureDate())
         .cnapsNumber(domain.getCnapsNumber())
         .phoneNumbers(phoneNumberMapper.toEntities(domain.getPhoneNumbers()))
-        .scpCategories(scpMapper.toEntities(domain.getScp()))
+        .scpCategories(SPCMapper.toEntities(domain.getSpc()))
         .build();
   }
 
@@ -56,7 +56,7 @@ public class EmployeeMapper {
         .hiringDate(entity.getHiringDate())
         .departureDate(entity.getDepartureDate())
         .cnapsNumber(entity.getCnapsNumber())
-        .scp(scpMapper.toDomains(entity.getScpCategories()))
+        .spc(SPCMapper.toDomains(entity.getScpCategories()))
         .phoneNumbers(phoneNumberMapper.phoneNumbers(entity.getPhoneNumbers()))
         .build();
   }

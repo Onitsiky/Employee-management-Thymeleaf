@@ -19,7 +19,7 @@ import lombok.ToString;
 @EqualsAndHashCode
 @ToString
 @Builder(toBuilder = true)
-public class SocioProfessionalCategoryEntity {
+public class SPCEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
   private String id;

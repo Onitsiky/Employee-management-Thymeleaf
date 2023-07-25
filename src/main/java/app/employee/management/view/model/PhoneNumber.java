@@ -1,4 +1,4 @@
-package app.employee.management.model;
+package app.employee.management.view.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,7 +13,7 @@ import lombok.ToString;
 @EqualsAndHashCode
 @ToString
 @Builder(toBuilder = true)
-public class SocioProfessionalCategory {
+public class PhoneNumber {
   private String id;
-  private String categoryName;
+  private String number;
 }

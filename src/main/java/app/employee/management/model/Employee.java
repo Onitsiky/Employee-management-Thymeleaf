@@ -37,5 +37,5 @@ public class Employee implements Serializable {
   private Instant departureDate;
   private String cnapsNumber;
   private List<PhoneNumber> phoneNumbers;
-  private List<SocioProfessionalCategory> scp;
+  private List<SPC> spc;
 }
