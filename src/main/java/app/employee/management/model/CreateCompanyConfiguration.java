@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.web.multipart.MultipartFile;
 
 @AllArgsConstructor
 @Data
@@ -14,8 +15,7 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode
 @NoArgsConstructor
-public class CompanyConfiguration {
-  private String id;
+public class CreateCompanyConfiguration {
   private String companyName;
   private String description;
   private String slogan;
@@ -24,6 +24,6 @@ public class CompanyConfiguration {
   private String nif;
   private String stat;
   private String rcs;
-  private String logo;
-  private List<PhoneNumber> phoneNumbers;
+  private MultipartFile logo;
+  private List<String> phoneNumbers;
 }

@@ -47,19 +47,23 @@ public class EmployeeController {
   @GetMapping("/employee-details")
   public String EmployeeDetails(Model model, @RequestParam("id") String id) {
     Employee subject = mapper.toViewModel(service.getById(id));
+    CompanyConfiguration companyConfiguration = companyConfigurationService.getCompanyByName("Via");
     model.addAttribute("employee", subject);
     model.addAttribute("sexEnumM", SexEnum.M);
     model.addAttribute("sexEnumF", SexEnum.F);
+    model.addAttribute("company", companyConfiguration);
     return "employee-details";
   }
 
   @GetMapping("/add-employee")
   public String employeeForm(Model model) {
     List<SPC> spcs = spcViewMapper.toViewModels(spcService.getAll());
+    CompanyConfiguration companyConfiguration = companyConfigurationService.getCompanyByName("Via");
     model.addAttribute("employee", new CreateEmployee());
     model.addAttribute("sexEnumM", SexEnum.M);
     model.addAttribute("sexEnumF", SexEnum.F);
     model.addAttribute("socioProCategories", spcs);
+    model.addAttribute("company", companyConfiguration);
     return "employee-form";
   }
 

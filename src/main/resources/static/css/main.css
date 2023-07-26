@@ -21,20 +21,17 @@
     background-color: #f8f9fa;
 }
 .banner {
-    display: flex;
-    align-items: center;
-    background-color: #f1f1f1;
-    padding: 10px;
-    border-radius: 20px;
+    background-color: #6c757d;
+    color: #fff;
+    padding: 20px;
 }
 
 .image-circle {
-    width: 80px;
-    height: 80px;
+    width: 100px;
+    height: 100px;
     border-radius: 50%;
     overflow: hidden;
-    margin-right: 20px;
-    background-color: #fff;
+    margin: 0 auto;
 }
 
 .profile-image {
@@ -43,32 +40,21 @@
     object-fit: cover;
 }
 
-.name {
-    margin-right: 20px;
+.name h3 {
+    margin-top: 10px;
+    font-weight: bold;
 }
 
-.middle-sentence {
-    flex-grow: 1;
+.middle-sentence p {
+    font-style: italic;
 }
 
-/* Additional styles for centering the banner */
-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-}
 footer {
-    min-height: 200px;
     background-color: #f8f9fa;
+    padding: 20px 0;
 }
 
-/* Center the content in the footer */
 .footer-content {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
+    color: #333;
+    font-size: 14px;
 }

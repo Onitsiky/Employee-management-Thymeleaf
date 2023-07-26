@@ -7,6 +7,17 @@
   <link rel="stylesheet" th:href="@{/css/main.css}">
 </head>
 <body>
+<div class="banner my-attribute">
+  <div class="image-circle">
+    <img class="profile-image" src="#" th:src="@{'data:image/jpeg;base64,' + ${company.logo}}" alt="Company Logo">
+  </div>
+  <div class="name">
+    <h3 th:text="${company.companyName}"></h3>
+  </div>
+  <div class="middle-sentence">
+    <p th:text="${company.slogan}"></p>
+  </div>
+</div>
 <form class="card p-3" th:object="${employee}" action="#" th:action="@{/update-employee}" method="post">
   <div class="text-center">
     <img class="rounded-circle circle-image" src="#" th:src="@{'data:image/jpeg;base64,' + ${employee.image}}"
@@ -106,14 +117,14 @@
              th:field="*{cnapsNumber}" readonly>
     </div>
     <div class="col-md-6 mb-3">
-      <label for="phoneNumber" class="form-label">Phone Numbers</label>
+      <label class="form-label">Phone Numbers</label>
       <div th:each="phoneNumber : ${employee.getPhoneNumbers()}">
         <input type="text" class="form-control" th:value="${phoneNumber.number}" readonly>
         <br/>
       </div>
     </div>
     <div class="col-md-6 mb-3">
-      <label for="spc" class="form-label">Socio-Professional Category</label>
+      <label class="form-label">Socio-Professional Category</label>
       <div th:each="spc : ${employee.spc}">
         <input type="text" class="form-control" th:value="${spc.categoryName}" readonly>
         <br/>
@@ -126,6 +137,19 @@
     </div>
   </div>
 </form>
+<footer class="mt-5">
+  <div class="container">
+    <div class="footer-content text-center">
+      <h4 th:text="${company.companyName}"></h4>
+      <p>Contact Email: <span th:text="${company.contactEmail}"></span></p>
+      <p>Address: <span th:text="${company.exactAddress}"></span></p>
+      <p>NIF: <span th:text="${company.nif}"></span></p>
+      <p>STAT: <span th:text="${company.stat}"></span></p>
+      <p>RCS: <span th:text="${company.rcs}"></span></p>
+      <p>Description: <span th:text="${company.description}"></span></p>
+    </div>
+  </div>
+</footer>
 </body>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <script>

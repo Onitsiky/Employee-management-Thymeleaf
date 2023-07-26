@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Company Configuration</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body>
+<div class="container mt-4">
+    <h2 class="text-center text-secondary">Create Company Configuration</h2>
+    <form th:action="@{/company/configuration}" th:object="${companyConfiguration}" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label>Company Name</label>
+            <input class="form-control" type="text" th:field="*{companyName}" required />
+        </div>
+        <div class="form-group">
+            <label>Description</label>
+            <input class="form-control" type="text" th:field="*{description}" required />
+        </div>
+        <div class="form-group">
+            <label>Slogan</label>
+            <input class="form-control" type="text" th:field="*{slogan}" required />
+        </div>
+        <div class="form-group">
+            <label>Exact Address</label>
+            <input class="form-control" type="text" th:field="*{exactAddress}" required />
+        </div>
+        <div class="form-group">
+            <label>Contact Email</label>
+            <input class="form-control" type="email" th:field="*{contactEmail}" required />
+        </div>
+        <div class="form-group">
+            <label>NIF</label>
+            <input class="form-control" type="text" th:field="*{nif}" required />
+        </div>
+        <div class="form-group">
+            <label>STAT</label>
+            <input class="form-control" type="text" th:field="*{stat}" required />
+        </div>
+        <div class="form-group">
+            <label>RCS</label>
+            <input class="form-control" type="text" th:field="*{rcs}" required />
+        </div>
+        <div class="form-group">
+            <label>Logo</label>
+            <input class="form-control" type="file" th:field="*{logo}" required />
+        </div>
+        <div class="row">
+            <div class="col-md-12 mb-2" id="phoneNumber-fields">
+                <label for="phoneNumber">Phone Number:</label>
+                <input class="form-control" type="text" id="phoneNumber" th:field="*{phoneNumbers[0]}" required />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 mb-2">
+                <button type="button" class="btn btn-secondary" onclick="addPhoneNumber()">Add Phone Number</button>
+            </div>
+        </div>
+        <div class="text-center">
+            <button class="btn btn-primary" type="submit">Create</button>
+            <a class="btn btn-secondary" th:href="@{/employee}">Cancel</a>
+        </div>
+    </form>
+</div>
+<script th:inline="javascript">
+    let phoneCount = 1;
+
+    function addPhoneNumber() {
+        const phoneInput = document.createElement("input");
+        phoneInput.setAttribute("class", "form-control");
+        phoneInput.setAttribute("type", "text");
+        phoneInput.setAttribute("id", "phoneNumber" + phoneCount);
+        phoneInput.setAttribute("name", "phoneNumbers[" + phoneCount + "]");
+        phoneInput.setAttribute("required", "");
+        document.getElementById("phoneNumber-fields").appendChild(phoneInput);
+        phoneCount++;
+    }
+</script>
+</body>
+</html>
