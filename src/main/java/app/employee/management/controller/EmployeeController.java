@@ -41,7 +41,7 @@ public class EmployeeController {
         .map(mapper::toViewModel)
         .toList();
     CompanyConfiguration companyConfiguration = companyConfigurationService.getCompanyByName("Via");
-    return getModelAttributes(model, employees);
+    return getModelAttributes(model, employees, companyConfiguration);
   }
 
   @GetMapping("/employee-details")
@@ -77,15 +77,18 @@ public class EmployeeController {
         function, lastNameOrder, firstNameOrder, sexOrder, functionOrder, 0, 10).stream()
         .map(mapper::toViewModel)
         .toList();
-    return getModelAttributes(model, filteredEmployees);
+    CompanyConfiguration companyConfiguration = companyConfigurationService.getCompanyByName("Via");
+    return getModelAttributes(model, filteredEmployees, companyConfiguration);
   }
 
-  private String getModelAttributes(Model model, List<Employee> filteredEmployees) {
+  private String getModelAttributes(Model model, List<Employee> filteredEmployees,
+                                    CompanyConfiguration companyConfiguration) {
     model.addAttribute("employees", filteredEmployees);
     model.addAttribute("sexEnumM", SexEnum.M);
     model.addAttribute("sexEnumF", SexEnum.F);
     model.addAttribute("orderASC", OrderEnum.ASC);
     model.addAttribute("orderDESC", OrderEnum.DESC);
+    model.addAttribute("company", companyConfiguration);
     model.addAttribute("null", null);
     return "employee-list";
   }
