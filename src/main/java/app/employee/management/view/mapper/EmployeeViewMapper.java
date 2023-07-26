@@ -16,20 +16,24 @@ import java.time.format.DateTimeFormatter;
 import java.util.Base64;
 import java.util.List;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 @Component
 @AllArgsConstructor
+@Slf4j
 public class EmployeeViewMapper {
   private final PhoneNumberViewMapper phoneNumberViewMapper;
-  private final PhoneNumberService phoneNumberService;
   private final SPCViewMapper spcViewMapper;
   private final SPCService spcService;
 
   public static Instant fromStringToInstant(String str) {
-    LocalDate localDate = LocalDate.parse(str);
-    return localDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
+    if(!str.isEmpty() && !str.isBlank()){
+      LocalDate localDate = LocalDate.parse(str);
+      return localDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
+    }
+      return null;
   }
 
   public static String fromInstantToString(Instant instant) {

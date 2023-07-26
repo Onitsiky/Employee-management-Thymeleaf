@@ -30,6 +30,24 @@
             <input class="form-control" type="text" name="function" placeholder="Enter search keyword for function">
         </div>
         <div class="col-md-3 mb-1">
+            <input class="form-control" type="date" name="hiredFrom">
+        </div>
+        <div class="col-md-3 mb-1">
+            <input class="form-control" type="date" name="hiredTo">
+        </div>
+        <div class="col-md-3 mb-1">
+            <input class="form-control" type="date" name="wentFrom">
+        </div>
+        <div class="col-md-3 mb-1">
+            <input class="form-control" type="date" name="wentTo">
+        </div>
+        <div class="col-md-3 mb-1">
+            <input class="form-control" type="number" name="page">
+        </div>
+        <div class="col-md-3 mb-1">
+            <input class="form-control" type="number" name="pageSize">
+        </div>
+        <div class="col-md-3 mb-1">
             <select class="form-control" name="sex">
                 <option th:value="${null}">-- Select direction --</option>
                 <option th:value="${sexEnumM}">Male</option>

@@ -17,4 +17,5 @@ import lombok.ToString;
 public class PhoneNumber implements Serializable {
   private String id;
   private String number;
+  private String code;
 }

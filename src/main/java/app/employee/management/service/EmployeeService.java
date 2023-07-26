@@ -1,8 +1,6 @@
 package app.employee.management.service;
 
 import app.employee.management.model.Employee;
-import app.employee.management.model.PhoneNumber;
-import app.employee.management.model.SPC;
 import app.employee.management.repository.entity.EmployeeEntity;
 import app.employee.management.repository.enums.OrderEnum;
 import app.employee.management.repository.enums.SexEnum;
@@ -18,6 +16,7 @@ import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -31,7 +30,7 @@ import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.jpa.repository.query.QueryUtils;
 import org.springframework.stereotype.Service;
 
-import static app.employee.management.view.mapper.EmployeeViewMapper.fromInstantToString;
+import static app.employee.management.view.mapper.EmployeeViewMapper.fromStringToInstant;
 
 @Service
 @AllArgsConstructor
@@ -43,6 +42,8 @@ public class EmployeeService {
 
   private static Predicate[] retrieveNotNullPredicates(String lastName, String firstName,
                                                        SexEnum sex, String function,
+                                                       Instant hiredFrom, Instant hiredTo,
+                                                       Instant wentFrom, Instant wentTo,
                                                        CriteriaBuilder builder,
                                                        Root<EmployeeEntity> root,
                                                        List<Predicate> predicates) {
@@ -65,6 +66,16 @@ public class EmployeeService {
       predicates.add(builder.or(
           builder.like(root.get("function"), "%" + function + "%"),
           builder.like(builder.lower(root.get("function")), "%" + function + "%")
+      ));
+    }
+    if (hiredFrom != null && hiredTo != null) {
+      predicates.add(builder.or(
+          builder.between(root.get("hiringDate"), hiredFrom, hiredTo)
+      ));
+    }
+    if (wentFrom != null && wentTo != null) {
+      predicates.add(builder.or(
+          builder.between(root.get("departureDate"), wentFrom, wentTo)
       ));
     }
     return new Predicate[predicates.size()];
@@ -116,7 +127,11 @@ public class EmployeeService {
   }
 
   public List<Employee> getEmployeeByCriteria(String lastName, String firstName, SexEnum sex,
-                                              String function, OrderEnum lastNameOrder,
+                                              String function,
+                                              String hiredFrom,
+                                              String hiredTo,
+                                              String wentFrom,
+                                              String wentTo, OrderEnum lastNameOrder,
                                               OrderEnum firstNameOrder, OrderEnum sexOrder,
                                               OrderEnum functionOrder, Integer page,
                                               Integer pageSize) {
@@ -127,6 +142,8 @@ public class EmployeeService {
     Root<EmployeeEntity> root = query.from(EmployeeEntity.class);
     List<Predicate> predicates = new ArrayList<>();
     Predicate[] predicatesArray = retrieveNotNullPredicates(lastName, firstName, sex, function,
+        fromStringToInstant(hiredFrom), fromStringToInstant(hiredTo),
+        fromStringToInstant(wentFrom), fromStringToInstant(wentTo),
         criteriaBuilder, root, predicates);
     query
         .where(criteriaBuilder.and(predicates.toArray(predicatesArray)))
@@ -140,6 +157,7 @@ public class EmployeeService {
         .map(mapper::toDomain)
         .toList();
   }
+
   public Employee crupdateEmployee(Employee employee) {
     return mapper.toDomain(repository.save(mapper.toEntity(employee)));
   }

@@ -72,13 +72,23 @@ public class EmployeeController {
                                      @RequestParam(value = "firstName", required = false) String firstName,
                                      @RequestParam(value = "function", required = false) String function,
                                      @RequestParam(value = "sex", required = false) SexEnum sex,
+                                     @RequestParam(value = "hiredFrom", required = false) String hiredFrom,
+                                     @RequestParam(value = "hiredTo", required = false) String hiredTo,
+                                     @RequestParam(value = "wentFrom", required = false) String wentFrom,
+                                     @RequestParam(value = "wentTo", required = false) String wentTo,
                                      @RequestParam(value = "lastNameOrder", required = false) OrderEnum lastNameOrder,
                                      @RequestParam(value = "firstNameOrder", required = false) OrderEnum firstNameOrder,
                                      @RequestParam(value = "sexOrder", required = false) OrderEnum sexOrder,
                                      @RequestParam(value = "functionOrder", required = false) OrderEnum functionOrder,
+                                     @RequestParam(value = "page", required = false) Integer page,
+                                     @RequestParam(value = "pageSize", required = false) Integer pageSize,
                                      Model model) {
+    Integer sortPage = page == null ? 0 : page;
+    Integer sortPageSize = pageSize == null ? 10 : pageSize;
     List<Employee> filteredEmployees = service.getEmployeeByCriteria(lastName, firstName, sex,
-        function, lastNameOrder, firstNameOrder, sexOrder, functionOrder, 0, 10).stream()
+        function, hiredFrom, hiredTo, wentFrom, wentTo, lastNameOrder, firstNameOrder, sexOrder,
+            functionOrder, sortPage,
+            sortPageSize).stream()
         .map(mapper::toViewModel)
         .toList();
     CompanyConfiguration companyConfiguration = companyConfigurationService.getCompanyByName("Via");

@@ -11,6 +11,7 @@ public class PhoneNumberMapper {
     return PhoneNumberEntity.builder()
         .id(domain.getId())
         .number(domain.getNumber())
+        .code(domain.getCode())
         .build();
   }
 
@@ -18,6 +19,7 @@ public class PhoneNumberMapper {
     return PhoneNumber.builder()
         .id(entity.getId())
         .number(entity.getNumber())
+        .code(entity.getCode())
         .build();
   }
 

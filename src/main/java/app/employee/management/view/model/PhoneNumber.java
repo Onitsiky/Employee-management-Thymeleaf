@@ -16,4 +16,5 @@ import lombok.ToString;
 public class PhoneNumber {
   private String id;
   private String number;
+  private String code;
 }

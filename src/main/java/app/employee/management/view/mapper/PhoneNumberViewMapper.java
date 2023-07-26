@@ -10,6 +10,7 @@ public class PhoneNumberViewMapper {
     return PhoneNumber.builder()
         .id(domain.getId())
         .number(domain.getNumber())
+        .code(domain.getCode())
         .build();
   }
 
@@ -17,6 +18,7 @@ public class PhoneNumberViewMapper {
     return app.employee.management.model.PhoneNumber.builder()
         .id(view.getId())
         .number(view.getNumber())
+        .code(view.getCode())
         .build();
   }
 

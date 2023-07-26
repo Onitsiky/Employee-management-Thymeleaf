@@ -23,4 +23,5 @@ public class PhoneNumberEntity {
   @GeneratedValue(strategy = GenerationType.UUID)
   private String id;
   private String number;
+  private String code;
 }
