@@ -21,43 +21,43 @@
 <main class="container mt-4">
     <form th:action="@{/employee/search}" method="get" class="row">
         <div class="col-md-3 mb-1">
-            <label for="lastName-search">Filtrer par Nom</label>
+            <label for="lastName-search">Filter by last name</label>
             <input id="lastName-search" class="form-control" type="text" name="lastName" placeholder="Enter search keyword for last name">
         </div>
         <div class="col-md-3 mb-1">
-            <label for="lastName-search">Filtrer par Prenom</label>
+            <label for="lastName-search">Filter by first name</label>
             <input class="form-control" id="firstName-search" type="text" name="firstName" placeholder="Enter search keyword for first name">
         </div>
         <div class="col-md-3 mb-1">
-            <label for="lastName-search">Filtrer par Fonction</label>
+            <label for="lastName-search">filter by function</label>
             <input class="form-control" id="function-search" type="text" name="function" placeholder="Enter search keyword for function">
         </div>
         <div class="col-md-3 mb-1">
-            <label for="lastName-search">Filtrer par date d'embauche (depuis)</label>
+            <label for="lastName-search">Filter by hiring date(from)</label>
             <input class="form-control" id="hiredFrom-search" type="date" name="hiredFrom">
         </div>
         <div class="col-md-3 mb-1">
-            <label for="lastName-search">Filtrer par date d'embaucher (jusquà'à)</label>
+            <label for="lastName-search">Filter by hiring date(to)</label>
             <input class="form-control" id="hiredTo-search" type="date" name="hiredTo">
         </div>
         <div class="col-md-3 mb-1">
-            <label for="lastName-search">Filtrer par date de départ(de)</label>
+            <label for="lastName-search">Filter by departure date(from)</label>
             <input class="form-control"  id="wentFrom-search"type="date" name="wentFrom">
         </div>
         <div class="col-md-3 mb-1">
-            <label for="lastName-search">Filtrer par date de départ(à)</label>
+            <label for="lastName-search">Filter by departure date(to)</label>
             <input class="form-control" id="wentTo-search" type="date" name="wentTo">
         </div>
         <div class="col-md-3 mb-1">
-            <label for="page">Filtrer par nombre de pages</label>
+            <label for="page">Page number</label>
             <input class="form-control" id="page" type="number" name="page">
         </div>
         <div class="col-md-3 mb-1">
-            <label for="pageSize">Filtrer par taille de page</label>
+            <label for="pageSize">Page size</label>
             <input class="form-control" id="pageSize" type="number" name="pageSize">
         </div>
         <div class="col-md-3 mb-1">
-            <label for="sex-search">Filtrer par Sexe</label>
+            <label for="sex-search">Filter by sex</label>
             <select class="form-control" id="sex-search" name="sex">
                 <option th:value="${null}">-- Select Gender --</option>
                 <option th:value="${sexEnumM}">Male</option>
@@ -65,7 +65,7 @@
             </select>
         </div>
         <div class="col-md-3 mb-1">
-            <label for="nameOrder-order">Ordonner par Nom </label>
+            <label for="nameOrder-order">order by last name </label>
             <select id="nameOrder-order" class="form-control" name="lastNameOrder">
                 <option th:value="${null}">-- Select Last Name direction --</option>
                 <option th:value="${orderASC}">ASC</option>
@@ -73,7 +73,7 @@
             </select>
         </div>
         <div class="col-md-3 mb-1">
-            <label for="sex-search">Ordonner par Prénom/label>
+            <label for="sex-search">Order by first name</label>
             <select class="form-control" name="firstNameOrder">
                 <option th:value="${null}">-- Select First Name direction --</option>
                 <option th:value="${orderASC}">ASC</option>
@@ -81,7 +81,7 @@
             </select>
         </div>
         <div class="col-md-3 mb-1">
-            <label for="nameOrder-order">Ordonner par Sexe </label>
+            <label for="nameOrder-order">Order by sex</label>
             <select class="form-control" name="sexOrder">
                 <option th:value="${null}">-- Select Sex direction --</option>
                 <option th:value="${orderASC}">ASC</option>
@@ -89,7 +89,7 @@
             </select>
         </div>
         <div class="col-md-3 mb-1">
-            <label for="nameOrder-order">Ordonner par Fonction </label>
+            <label for="nameOrder-order">Order by function </label>
             <select class="form-control" name="functionOrder">
                 <option th:value="${null}">-- Select Function direction --</option>
                 <option th:value="${orderASC}">ASC</option>
