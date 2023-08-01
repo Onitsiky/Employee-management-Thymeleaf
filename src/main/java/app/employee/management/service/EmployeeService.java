@@ -2,6 +2,7 @@ package app.employee.management.service;
 
 import app.employee.management.model.Employee;
 import app.employee.management.repository.entity.EmployeeEntity;
+import app.employee.management.repository.entity.PhoneNumberEntity;
 import app.employee.management.repository.enums.OrderEnum;
 import app.employee.management.repository.enums.SexEnum;
 import app.employee.management.repository.jpa.EmployeeJpaRepository;
@@ -12,6 +13,7 @@ import com.opencsv.CSVWriter;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import java.io.FileWriter;
@@ -46,7 +48,9 @@ public class EmployeeService {
                                                        Instant wentFrom, Instant wentTo,
                                                        CriteriaBuilder builder,
                                                        Root<EmployeeEntity> root,
-                                                       List<Predicate> predicates) {
+                                                       List<Predicate> predicates,
+                                                       String phoneCode, Join<EmployeeEntity,
+      PhoneNumberEntity> join) {
     if (firstName != null) {
       predicates.add(builder.or(
           builder.like(root.get("firstName"), "%" + firstName + "%"),
@@ -57,6 +61,12 @@ public class EmployeeService {
       predicates.add(builder.or(
           builder.like(root.get("lastName"), "%" + lastName + "%"),
           builder.like(builder.lower(root.get("lastName")), "%" + lastName + "%")
+      ));
+    }
+    if (phoneCode != null) {
+      predicates.add(builder.or(
+          builder.like(join.get("code"), "%" + phoneCode + "%"),
+          builder.like(builder.lower(join.get("code")), "%" + phoneCode + "%")
       ));
     }
     if (sex != null) {
@@ -134,17 +144,18 @@ public class EmployeeService {
                                               String wentTo, OrderEnum lastNameOrder,
                                               OrderEnum firstNameOrder, OrderEnum sexOrder,
                                               OrderEnum functionOrder, Integer page,
-                                              Integer pageSize) {
+                                              Integer pageSize, String phoneCode) {
     CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
     CriteriaQuery<EmployeeEntity> query = criteriaBuilder.createQuery(EmployeeEntity.class);
     List<Order> orders = retrieveOrders(lastNameOrder, firstNameOrder, sexOrder, functionOrder);
     Pageable pageable = PageRequest.of(page, pageSize, Sort.by(orders));
     Root<EmployeeEntity> root = query.from(EmployeeEntity.class);
+    Join<EmployeeEntity, PhoneNumberEntity> join = root.join("phoneNumbers");
     List<Predicate> predicates = new ArrayList<>();
     Predicate[] predicatesArray = retrieveNotNullPredicates(lastName, firstName, sex, function,
         fromStringToInstant(hiredFrom), fromStringToInstant(hiredTo),
         fromStringToInstant(wentFrom), fromStringToInstant(wentTo),
-        criteriaBuilder, root, predicates);
+        criteriaBuilder, root, predicates, phoneCode, join);
     query
         .where(criteriaBuilder.and(predicates.toArray(predicatesArray)))
         .orderBy(QueryUtils.toOrders(pageable.getSort(), root, criteriaBuilder));

@@ -82,13 +82,14 @@ public class EmployeeController {
                                      @RequestParam(value = "functionOrder", required = false) OrderEnum functionOrder,
                                      @RequestParam(value = "page", required = false) Integer page,
                                      @RequestParam(value = "pageSize", required = false) Integer pageSize,
+                                     @RequestParam(value = "phoneCode", required = false) String phoneCode,
                                      Model model) {
     Integer sortPage = page == null ? 0 : page;
     Integer sortPageSize = pageSize == null ? 10 : pageSize;
     List<Employee> filteredEmployees = service.getEmployeeByCriteria(lastName, firstName, sex,
         function, hiredFrom, hiredTo, wentFrom, wentTo, lastNameOrder, firstNameOrder, sexOrder,
             functionOrder, sortPage,
-            sortPageSize).stream()
+            sortPageSize, phoneCode).stream()
         .map(mapper::toViewModel)
         .toList();
     CompanyConfiguration companyConfiguration = companyConfigurationService.getCompanyByName("Via");
@@ -110,7 +111,6 @@ public class EmployeeController {
   @PostMapping("/save-employee")
   public String saveEmployee(@ModelAttribute CreateEmployee employee) {
     validator.accept(employee);
-    log.info("Payload: {}", employee);
     service.crupdateEmployee(mapper.toDomain(employee));
     return "redirect:/employee";
   }
