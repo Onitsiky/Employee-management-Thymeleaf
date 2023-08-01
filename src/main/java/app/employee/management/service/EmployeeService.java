@@ -80,12 +80,16 @@ public class EmployeeService {
     }
     if (hiredFrom != null && hiredTo != null) {
       predicates.add(builder.or(
-          builder.between(root.get("hiringDate"), hiredFrom, hiredTo)
+          builder.between(root.get("hiringDate"), hiredFrom, hiredTo),
+          builder.greaterThanOrEqualTo(root.get("hiringDate"), hiredFrom),
+          builder.greaterThanOrEqualTo(root.get("hiringDate"), hiredTo)
       ));
     }
     if (wentFrom != null && wentTo != null) {
       predicates.add(builder.or(
-          builder.between(root.get("departureDate"), wentFrom, wentTo)
+          builder.between(root.get("departureDate"), wentFrom, wentTo),
+          builder.greaterThanOrEqualTo(root.get("departureDate"), wentFrom),
+          builder.greaterThanOrEqualTo(root.get("departureDate"), wentTo)
       ));
     }
     return new Predicate[predicates.size()];
