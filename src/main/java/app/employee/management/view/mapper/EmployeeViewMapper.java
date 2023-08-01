@@ -3,6 +3,7 @@ package app.employee.management.view.mapper;
 
 import app.employee.management.service.PhoneNumberService;
 import app.employee.management.service.SPCService;
+import app.employee.management.utils.exception.BadRequestException;
 import app.employee.management.view.model.CreateEmployee;
 import app.employee.management.view.model.Employee;
 import app.employee.management.view.model.PhoneNumber;
@@ -14,7 +15,9 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -25,15 +28,16 @@ import org.springframework.web.multipart.MultipartFile;
 @Slf4j
 public class EmployeeViewMapper {
   private final PhoneNumberViewMapper phoneNumberViewMapper;
+  private final PhoneNumberService phoneNumberService;
   private final SPCViewMapper spcViewMapper;
   private final SPCService spcService;
 
   public static Instant fromStringToInstant(String str) {
-    if(!str.isEmpty() && !str.isBlank()){
+    if (!str.isEmpty() && !str.isBlank()) {
       LocalDate localDate = LocalDate.parse(str);
       return localDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
     }
-      return null;
+    return null;
   }
 
   public static String fromInstantToString(Instant instant) {
@@ -93,9 +97,22 @@ public class EmployeeViewMapper {
   }
 
   public app.employee.management.model.Employee toDomain(CreateEmployee view) {
-    List<PhoneNumber> phoneNumbers = view.getPhoneNumbers().stream()
-        .map(number -> PhoneNumber.builder()
-            .number(number)
+    Map<String, String> phoneNumbersWithCode = new HashMap<>();
+    if(view.getPhoneCode().size() == view.getPhoneNumbers().size()) {
+      for (int i = 0 ; i< view.getPhoneNumbers().size(); i++) {
+        phoneNumbersWithCode.put(view.getPhoneCode().get(i), view.getPhoneNumbers().get(i));
+      }
+    }
+    for(Map.Entry<String, String> entry : phoneNumbersWithCode.entrySet()) {
+      if(!phoneNumberService.checkUniquePhoneNumber(entry.getKey(), entry.getValue())){
+        throw new BadRequestException("Phone nuumber (" + entry.getKey() + entry.getValue() + ") " +
+            "is already used");
+      }
+    }
+    List<PhoneNumber> phoneNumbers = phoneNumbersWithCode.entrySet().stream()
+        .map(entry -> PhoneNumber.builder()
+            .number(entry.getValue())
+            .code(entry.getKey())
             .build())
         .toList();
     List<SPC> spcs = view.getSocioProfessionalCategories().stream()

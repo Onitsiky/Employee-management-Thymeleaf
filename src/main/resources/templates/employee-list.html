@@ -147,7 +147,7 @@
                 <td th:text="${employee.cnapsNumber}"></td>
                 <td class="phone-numbers">
                     <ul class="list-unstyled">
-                        <li th:each="phoneNumber : ${employee.phoneNumbers}" th:text="${phoneNumber.number}"></li>
+                        <li th:each="phoneNumber : ${employee.phoneNumbers}" th:text="${phoneNumber.code + phoneNumber.number}"></li>
                     </ul>
                 </td>
                 <td class="spcs">

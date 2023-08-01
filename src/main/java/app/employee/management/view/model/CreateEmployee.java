@@ -35,4 +35,5 @@ public class CreateEmployee {
   private String cnapsNumber;
   private List<String> socioProfessionalCategories;
   private List<String> phoneNumbers;
+  private List<String> phoneCode;
 }

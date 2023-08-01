@@ -110,6 +110,7 @@ public class EmployeeController {
   @PostMapping("/save-employee")
   public String saveEmployee(@ModelAttribute CreateEmployee employee) {
     validator.accept(employee);
+    log.info("Payload: {}", employee);
     service.crupdateEmployee(mapper.toDomain(employee));
     return "redirect:/employee";
   }

@@ -18,4 +18,15 @@ public class PhoneNumberService {
         .map(mapper::toDomain)
         .toList();
   }
+
+  public boolean checkUniquePhoneNumber(String code, String number) {
+    List<PhoneNumber> actuals =
+        repository.getByCodeAndAndNumber(code, number).stream()
+            .map(mapper::toDomain)
+            .toList();
+    if(actuals.size() > 0) {
+      return false;
+    }
+    return true;
+  }
 }

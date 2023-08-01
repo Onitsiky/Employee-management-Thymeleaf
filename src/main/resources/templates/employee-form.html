@@ -135,6 +135,16 @@
       <div class="row">
         <div class="col-md-12 mb-2" id="phoneNumber-fields">
           <label for="phoneNumber">Phone Number:</label>
+          <select class="form-control" th:field="*{phoneCode[0]}" id="country-code" required>
+            <option value="">Select Country Code</option>
+            <option value="+93">Afghanistan (+93)</option>
+            <option value="+355">Albania (+355)</option>
+            <option value="+213">Algeria (+213)</option>
+            <option value="+33">France (+33)</option>
+            <option value="+261">Madagascar (+261)</option>
+            <option value="+1">USA (+1)</option>
+            <option value="+263">Zimbabwe (+263)</option>
+          </select>
           <input class="form-control" type="text" id="phoneNumber" th:field="*{phoneNumbers[0]}" required />
         </div>
       </div>
@@ -164,14 +174,33 @@
   </div>
 </footer>
 <script th:inline="javascript">
-  let phoneCount = 1;
+  let count = 1;
+  const countryCodes = [
+    { code: '+93', name: 'Afghanistan ' },
+    { code: '+355', name: 'Albania ' },
+    { code: '+213', name: 'Algeria ' },
+    { code: '+33', name: 'France ' },
+    {code: '+261', name: 'Madagascar '},
+    {code: '+1', name: 'USA '},
+    { code: '+263', name: 'Zimbabwe ' }
+  ];
 
   function addPhoneNumber() {
     const phoneInput = document.createElement("input");
+    const phoneCode = document.createElement("select");
+    phoneCode.setAttribute("class", "form-control");
+    phoneCode.setAttribute("name", "phoneCode[" + count + "]")
+    countryCodes.forEach(country => {
+      const optionElement = document.createElement('option');
+      optionElement.value = country.code;
+      optionElement.textContent = `${country.name} (${country.code})`;
+      phoneCode.appendChild(optionElement);
+      document.getElementById("phoneNumber-fields").appendChild(phoneCode);
+    });
     phoneInput.setAttribute("class", "form-control");
     phoneInput.setAttribute("type", "text");
-    phoneInput.setAttribute("id", "phoneNumber" + phoneCount);
-    phoneInput.setAttribute("name", "phoneNumbers[" + phoneCount + "]");
+    phoneInput.setAttribute("id", "phoneNumber" + count);
+    phoneInput.setAttribute("name", "phoneNumbers[" + count + "]");
     phoneInput.setAttribute("required", "");
     document.getElementById("phoneNumber-fields").appendChild(phoneInput);
     phoneCount++;

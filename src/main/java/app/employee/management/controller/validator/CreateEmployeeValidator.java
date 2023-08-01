@@ -32,5 +32,19 @@ public class CreateEmployeeValidator implements Consumer<CreateEmployee> {
     if (subject.getHiringDate() == null) {
       throw new BadRequestException("Hiring date is mandatory.");
     }
+    for (String phoneNumber : subject.getPhoneNumbers()) {
+      if(phoneNumber.length() > 10) {
+        throw new BadRequestException("[Phone number(" + phoneNumber + ") invalid] Entered phone " +
+            "number is too" +
+            " long." +
+            " " +
+            "Must not exceed 10.");
+      }
+      if(phoneNumber.length() < 10) {
+        throw new BadRequestException("[Phone number (" + phoneNumber + ") invalid] Entered phone number is too short." +
+            " " +
+            "Must be 10.");
+      }
+    }
   }
 }
