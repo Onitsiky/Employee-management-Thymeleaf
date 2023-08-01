@@ -25,105 +25,100 @@
   }
 </script>
 <body onload="setMaxDate()">
-<div class="banner my-attribute">
-  <div class="image-circle">
-    <img class="profile-image" src="#" th:src="@{'data:image/jpeg;base64,' + ${company.logo}}" alt="Company Logo">
-  </div>
-  <div class="name">
-    <h3 th:text="${company.companyName}"></h3>
-  </div>
-  <div class="middle-sentence">
-    <p th:text="${company.slogan}"></p>
+<div class="banner my-attribute bg-primary text-white text-center py-4">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-md-4">
+        <div class="image-circle">
+          <img class="profile-image rounded-circle" src="#" th:src="@{'data:image/jpeg;base64,' + ${company.logo}}" alt="Company Logo">
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="name">
+          <h3 th:text="${company.companyName}"></h3>
+        </div>
+        <div class="middle-sentence">
+          <p th:text="${company.slogan}"></p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <a href="/logout" class="btn btn-light float-right">Déconnexion</a>
+      </div>
+    </div>
   </div>
 </div>
+
 <div class="container-fluid mt-4"> <!-- Use container-fluid to make the form full-width -->
-  <div class="card p-3">
+  <div class="card p-3" style="width: 70vw">
     <h2 class="text-center text-secondary">Add new employee</h2>
-    <form action="#" th:action="@{/save-employee}" th:object="${employee}" method="post" enctype="multipart/form-data">
-      <div class="row">
-        <div class="col-md-6 mb-2">
+    <form class="row w-100" action="#" th:action="@{/save-employee}" th:object="${employee}" method="post" enctype="multipart/form-data">
+        <div class="col-md-3 col-sm-6 col-12 mb-2">
           <label>First Name</label>
           <input class="form-control" type="text" th:field="*{firstName}" />
         </div>
-        <div class="col-md-6 mb-2">
+        <div class="col-md-3 col-sm-6 col-12 mb-2">
           <label>Last Name</label>
           <input class="form-control" type="text" th:field="*{lastName}" />
         </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6 mb-2">
+        <div class="col-md-3 col-sm-6 col-12 mb-2">
           <label>Birth Date</label>
           <input id="birth-date" class="form-control" type="date" th:field="*{birthDate}" />
         </div>
-        <div class="col-md-6 mb-2">
+        <div class="col-md-3 col-sm-6 col-12 mb-2">
           <label>Employee Image</label>
           <input class="form-control" type="file" th:field="*{image}" />
         </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6 mb-2">
+        <div class="col-md-3 col-sm-6 col-12 mb-2">
           <label>Gender</label>
           <select class="form-control" th:field="*{sex}">
             <option th:value="${sexEnumM}">Male</option>
             <option th:value="${sexEnumF}">Female</option>
           </select>
         </div>
-        <div class="col-md-6 mb-2">
+        <div class="col-md-3 col-sm-6 col-12 mb-2">
           <label>Address</label>
           <input class="form-control" type="text" th:field="*{address}" />
         </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6 mb-2">
+        <div class="col-md-3 col-sm-6 col-12 mb-2">
           <label>Personal Email</label>
           <input class="form-control" type="email" th:field="*{personalEmail}" />
         </div>
-        <div class="col-md-6 mb-2">
+        <div class="col-md-3 col-sm-6 col-12 mb-2">
           <label>Professional Email</label>
           <input class="form-control" type="email" th:field="*{professionalEmail}" />
         </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6 mb-2">
+        <div class="col-md-3 col-sm-6 col-12 mb-2">
           <label>Id Card Number</label>
           <input class="form-control" type="text" th:field="*{idCardNumber}" />
         </div>
-        <div class="col-md-6 mb-2">
+        <div class="col-md-3 col-sm-6 col-12 mb-2">
           <label>Id Card Delivered Date</label>
           <input id="id-card-delivered-date" class="form-control" type="date" th:field="*{idCardDeliveredDate}" />
         </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6 mb-2">
+        <div class="col-md-3 col-sm-6 col-12 mb-2">
           <label>Id Card Place</label>
           <input class="form-control" type="text" th:field="*{idCardDeliveredPlace}" />
         </div>
-        <div class="col-md-6 mb-2">
+        <div class="col-md-3 col-sm-6 col-12 mb-2">
           <label>Function</label>
           <input class="form-control" type="text" th:field="*{function}" />
         </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6 mb-2">
+        <div class="col-md-3 col-sm-6 col-12 mb-2">
           <label>Children In Charge</label>
           <input class="form-control" type="number" th:field="*{childrenInCharge}" min='0' />
         </div>
-        <div class="col-md-6 mb-2">
+        <div class="col-md-3 col-sm-6 col-12 mb-2">
           <label>Hiring date</label>
           <input id="hiring-date" class="form-control" type="date" th:field="*{hiringDate}" />
         </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6 mb-2">
+        <div class="col-md-3 col-sm-6 col-12 mb-2">
           <label>Departure date</label>
           <input id="departure-date" class="form-control" type="date" th:field="*{departureDate}" />
         </div>
-        <div class="col-md-6 mb-2">
+        <div class="col-md-3 col-sm-6 col-12 mb-2">
           <label>Cnaps Number</label>
           <input class="form-control" type="text" th:field="*{cnapsNumber}" />
         </div>
-      </div>
-      <div class="row">
         <div class="col-md-12 mb-2">
           <label>Socio-professional category</label>
           <select class="form-control" th:field="*{socioProfessionalCategories}" id="categorySelect" name="socioProfessionalCategories" multiple="multiple">
@@ -131,8 +126,6 @@
             </option>
           </select>
         </div>
-      </div>
-      <div class="row">
         <div class="col-md-12 mb-2" id="phoneNumber-fields">
           <label for="phoneNumber">Phone Number:</label>
           <select class="form-control" th:field="*{phoneCode[0]}" id="country-code" required>
@@ -147,12 +140,9 @@
           </select>
           <input class="form-control" type="text" id="phoneNumber" th:field="*{phoneNumbers[0]}" required />
         </div>
-      </div>
-      <div class="row">
         <div class="col-md-12 mb-2">
           <button type="button" class="btn btn-secondary" onclick="addPhoneNumber()">Add Phone Number</button>
         </div>
-      </div>
       <div class="mt-2">
         <button class="btn btn-primary" type="submit">Save</button>
         <a class="btn btn-secondary" th:href="@{/employee}">Cancel</a>

@@ -7,17 +7,29 @@
     <link rel="stylesheet" th:href="@{/css/main.css}">
 </head>
 <body>
-<div class="banner my-attribute">
-    <div class="image-circle">
-        <img class="profile-image" src="#" th:src="@{'data:image/jpeg;base64,' + ${company.logo}}" alt="Company Logo">
-    </div>
-    <div class="name">
-        <h3 th:text="${company.companyName}"></h3>
-    </div>
-    <div class="middle-sentence">
-        <p th:text="${company.slogan}"></p>
+<div class="banner my-attribute bg-primary text-white text-center py-4">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-4">
+                <div class="image-circle">
+                    <img class="profile-image rounded-circle" src="#" th:src="@{'data:image/jpeg;base64,' + ${company.logo}}" alt="Company Logo">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="name">
+                    <h3 th:text="${company.companyName}"></h3>
+                </div>
+                <div class="middle-sentence">
+                    <p th:text="${company.slogan}"></p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <a href="/logout" class="btn btn-light float-right">Déconnexion</a>
+            </div>
+        </div>
     </div>
 </div>
+
 <main class="container mt-4">
     <form th:action="@{/employee/search}" method="get" class="row">
         <div class="col-md-3 mb-1">
