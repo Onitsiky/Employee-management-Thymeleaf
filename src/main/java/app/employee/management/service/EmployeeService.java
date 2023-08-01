@@ -19,6 +19,8 @@ import jakarta.persistence.criteria.Root;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -51,6 +53,7 @@ public class EmployeeService {
                                                        List<Predicate> predicates,
                                                        String phoneCode, Join<EmployeeEntity,
       PhoneNumberEntity> join) {
+    ZoneId zoneId = ZoneId.systemDefault();
     if (firstName != null) {
       predicates.add(builder.or(
           builder.like(root.get("firstName"), "%" + firstName + "%"),
@@ -80,21 +83,20 @@ public class EmployeeService {
     }
     if (hiredFrom != null && hiredTo != null) {
       predicates.add(builder.or(
-          builder.between(root.get("hiringDate"), hiredFrom, hiredTo),
-          builder.greaterThanOrEqualTo(root.get("hiringDate"), hiredFrom),
-          builder.greaterThanOrEqualTo(root.get("hiringDate"), hiredTo)
+          builder.between(root.get("hiringDate"), convertInstantToLocalDate(hiredFrom, zoneId), convertInstantToLocalDate(hiredTo, zoneId))
       ));
     }
     if (wentFrom != null && wentTo != null) {
       predicates.add(builder.or(
-          builder.between(root.get("departureDate"), wentFrom, wentTo),
-          builder.greaterThanOrEqualTo(root.get("departureDate"), wentFrom),
-          builder.greaterThanOrEqualTo(root.get("departureDate"), wentTo)
+          builder.between(root.get("departureDate"), convertInstantToLocalDate(wentFrom, zoneId), convertInstantToLocalDate(wentTo, zoneId))
       ));
     }
     return new Predicate[predicates.size()];
   }
 
+  private static LocalDate convertInstantToLocalDate(Instant instant, ZoneId zoneId) {
+    return instant.atZone(zoneId).toLocalDate();
+  }
   private static List<Order> retrieveOrders(OrderEnum firstNameOrder, OrderEnum lastNameOrder,
                                             OrderEnum sexOrder, OrderEnum functionOrder) {
     List<Order> orders = new ArrayList<>();
